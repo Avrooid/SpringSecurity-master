@@ -1,7 +1,6 @@
 package ru.Burakov.SpringSecurity.Security;
 
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,10 +38,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .requestMatchers("/user/**").hasRole("ADMIN")
-                .requestMatchers("/user").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/all").permitAll()
-                .and().formLogin();
+                .requestMatchers("/register", "/all").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").permitAll()
+                .and().logout().permitAll();
 
         return http.build();
     }
